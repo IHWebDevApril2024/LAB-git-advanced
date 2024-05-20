@@ -152,7 +152,7 @@ git push origin --delete landing-page
 This command deletes the branch from the remote repository. Crazy right? 😜
 You can also delete the branch from the github interface.
 
-## Iteration 9 | Go back in time
+## Iteration 9 | Go back in time 🚗🔥
 Yes, we can go back in time. We can go back to a previous commit. We can do this by using the `git log` command.
 
 ```bash
@@ -163,10 +163,185 @@ The log is going to display a list of commits. Each commit has a hash. We can us
 Example of what we can see in the log:
 ```bash
 commit 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t
-Author: John Doe <
+Author: John Doe <john@doe.com>
 Date:   Mon Jan 1 00:00:00 2021 +0100
 
     Add index.html
 ```
+In case we have a lot of commits, we are going to see a lot of these blocks. Every time we press the `j` key, we are going to go down in the list. If we press the `k` key, we are going to go up in the list. To exit the log, we need to press the `q` key.
 
+The first commit that we see is the latest commit. The last commit is the first commit.
 
+To go back to a previous commit, we need to use the `git checkout` command.
+
+```bash
+git checkout 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t
+```
+
+In your case you need to use the hash of the commit you want to go back to.
+
+Congratulations! You have gone back in time. 🚗🔥
+Now what? You can create a new branch from this commit and continue working from there.
+
+## Iteration 10 | Create a new branch from a previous commit
+
+Create a new branch from the commit you are in.
+
+```bash
+git checkout -b new-page
+```
+
+Now you are in a new branch called `new-page`. You can continue working from there.
+
+## Iteration 11 | Revert a commit
+
+We can also revert a commit. This is like going back in time but keeping the changes. We can do this by using the `git revert` command.
+
+First let's create a few modifications we don't want. Again, we are being naughty 🙈.
+
+Add random text to the `index.html` file and commit the changes.
+
+```bash
+git add index.html
+git commit -m "Add random text"
+git push origin new-page
+```
+
+Now we need to revert the commit.
+
+```bash
+git log
+```
+
+Check the hash of the commit you want to revert. Use the `git revert` command and add a message.
+
+```bash
+git revert 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t -m "Revert the changes"
+```
+
+This command is going to create a new commit that reverts the changes from the commit you specified.
+
+In case it's a merge commit, you need to specify the parent number. In this case, we are using `-m 1`. 
+How do we know if it's a merge commit? We can check the log. 
+
+A merge commit looks like this:
+
+```bash
+commit 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t
+Merge: 1a2b3c4 5e6f7g8
+Author: John Doe <john@doe.com>
+Date:   Mon Jan 1 00:00:00 2021 +0100
+
+    Merge branch 'landing-page'
+```
+Notice we have the word `Merge` in the commit. This is a merge commit.
+
+Where do we see the parent number? In the `Merge` line. In this case, we have two parents. The first parent is `1a2b3c4` and the second parent is `5e6f7g8`. We need to specify the parent number when we revert a merge commit.
+
+## Iteration 12 | Update the changes on github
+
+Now we need to update the changes on github.
+
+```bash
+git push origin new-page
+```
+
+That's it!
+
+## Iteration 13 | Rebase
+
+Rebase is another way to merge branches. It's like merging but it's going to keep the history clean. 
+
+Let's create a new branch called `new-feature`.
+
+```bash
+git checkout -b new-feature
+```
+
+Create a new js file called `script.js` and add the following content:
+
+```js
+console.log("Hello world");
+```
+
+Add and commit the changes.
+
+```bash
+git add script.js
+git commit -m "Add script.js"
+```
+
+Now create a new file called `style.css` and add the following content:
+
+```css
+body {
+  background-color: lightblue;
+}
+```
+
+Add and commit the changes.
+
+```bash
+git add style.css
+git commit -m "Add style.css"
+```
+
+Now we are going to rebase the `new-feature` branch into the `main` branch.
+
+```bash
+git checkout main
+git rebase new-feature
+```
+
+What happened? The rebase just moved the commits from the `new-feature` branch to the `main` branch. Let's check the log.
+
+```bash
+git log
+```
+
+Now the `main` branch has the commits from the `new-feature` branch. 
+
+When is this useful? When we have a lot of commits and we want to keep the history clean. 
+
+Now we need to push the changes to github.
+
+```bash
+git push origin main
+```
+
+That's it! You have learned how to rebase.
+
+## Iteration 14 | Reset
+
+We can also reset the changes. This is like going back in time but it's going to remove the changes.
+
+Let's create a new file in the main branch called `reset.js` and add the following content:
+
+```javascript
+console.log("Reset");
+```
+
+Add and commit the changes.
+
+```bash
+git add reset.js
+git commit -m "Add reset.js"
+```
+
+Now we are going to reset the changes.
+
+```bash
+git reset --hard HEAD~1
+```
+
+The `HEAD~1` is going to reset the last commit. The `--hard` flag is going to remove the changes.
+
+Now the `reset.js` file is gone.
+
+In case we want to reset to a specific commit, we can use the hash of the commit.
+
+```bash
+git reset --hard 1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t
+```
+
+And that's it! Thi is going to reset the changes to the commit you specified and remove them. Be careful with this command. It's like a bomb. 💣
